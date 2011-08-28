@@ -39,7 +39,7 @@ int SPI_Write(int request) {
   Serial.print("request = ");
   Serial.println(request, HEX);
   Serial.print("reply   = ");
-  Serial.println(reply, HEX);
+  Serial.println(reply, DEC);
   Serial.println();
   
   return reply; 

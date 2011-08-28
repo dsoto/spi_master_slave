@@ -8,8 +8,11 @@
 
 // todo: create internal counter and use interrupt architecture
 
+volatile int i=0;
+
 int main ()
 {
+
     // set MISO as output
     DDRB = (1 << 4);
     // enable SPI
@@ -21,6 +24,9 @@ int main ()
 
     for(;;)
     {
+
+        i++;
+        _delay_ms(50);
     }
 
 }
@@ -31,7 +37,7 @@ ISR(SPI_STC_vect) {
         SPDR = request << 1;
     }
     if (request == 0x02) {
-        SPDR = request << 2;
+        SPDR = i;
     }
 
 }
