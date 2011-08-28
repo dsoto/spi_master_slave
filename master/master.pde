@@ -32,6 +32,9 @@ int SPI_Write(int request) {
   // send request to SPI
   SPI.transfer(request);
   
+  // wait for write on slave
+  delay(100);
+  
   // transfer dummy bits and get response
   int reply = SPI.transfer(0x00);
   
