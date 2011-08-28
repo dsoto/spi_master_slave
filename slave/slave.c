@@ -18,10 +18,10 @@ int main ()
         while(!(SPSR & (1 << SPIF)));
         int request = SPDR;
         if (request == 0x01) {
-            SPDR = 0x03;
+            SPDR = request << 1;
         }
         if (request == 0x02) {
-            SPDR = 0x08;
+            SPDR = request << 2;
         }
 
     }
