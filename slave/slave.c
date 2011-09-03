@@ -37,6 +37,11 @@ ISR(SPI_STC_vect) {
         SPDR = request << 1;
     }
     if (request == 0x02) {
+        // write high byte of counter variable to output register
+        SPDR = i>>8;
+        // wait until write is complete
+        while(!(SPSR & (1<<SPIF)));
+        // write out low byte to output register
         SPDR = i;
     }
 

@@ -13,8 +13,8 @@ void setup() {
 }
 
 void loop() {
-  static int i=1;
-  if (i==3) i=1;
+  static int i=2;
+  if (i==3) i=2;
   int reply = SPI_Write(i);
   i++;
   delay(1000);
@@ -31,16 +31,25 @@ int SPI_Write(int request) {
   delay(100);
   
   // transfer dummy bits and get response
-  int reply = SPI.transfer(0x00);
+  int replyhigh = SPI.transfer(0x00);
+  // have to stick in this janky delay to get good data reply from slave
+  delay(100);
+  int replylow = SPI.transfer(0x00);
   
+  int reply = replyhigh * 256 + replylow;
   // take the SS pin high to de-select the chip:
   digitalWrite(slaveSelectPin, HIGH);
 
   Serial.print("request = ");
   Serial.println(request, HEX);
   Serial.print("reply   = ");
-  Serial.println(reply, DEC);
+  Serial.println(replyhigh, HEX);
+  Serial.print("reply   = ");
+  Serial.println(replylow, HEX);
+  Serial.print("reply   = ");
+  Serial.println(reply, HEX);
+
   Serial.println();
   
-  return reply; 
+  return replyhigh; 
 }

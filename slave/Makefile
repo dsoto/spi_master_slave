@@ -1,6 +1,8 @@
 MCU = atmega328
 PROJECT = slave
 
+# for uno use baud rate of 115200
+
 # convert to hex file
 $(PROJECT).hex: $(PROJECT).elf
 	avr-objcopy -O ihex $(PROJECT).elf $(PROJECT).hex
@@ -18,7 +20,8 @@ program:$(PROJECT).hex
 	avrdude -c usbtiny -p m328p -U flash:w:$(PROJECT).hex
 
 bootload:$(PROJECT).hex
-	avrdude -p m328p -c stk500v1 -P /dev/tty.usbserial-A700eYQo -b 57600 -F -U flash:w:slave.hex:i
+	#avrdude -p m328p -c stk500v1 -P /dev/tty.usbserial-A700eYQo -b 57600 -F -U flash:w:slave.hex:i
+	avrdude -p m328p -c stk500v1 -P /dev/tty.usbmodemfd131 -b 115200 -F -U flash:w:slave.hex:i
 
 fuse:$(PROJECT).hex
 	avrdude -c usbtiny -p m328p -U lfuse:w:0xcc:m -U hfuse:w:0xd9:m -U efuse:w:0xff:m
